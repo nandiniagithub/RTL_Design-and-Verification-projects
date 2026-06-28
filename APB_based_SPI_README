@@ -1,43 +1,77 @@
-//APB agent class
-class apb_agent extends uvm_agent;
+# APB Based SPI Controller Verification
 
-//Factory registration
-`uvm_component_utils(apb_agent)
+## Project Overview
+This project focuses on the design and verification of an SPI (Serial Peripheral Interface) Controller integrated with an APB (Advanced Peripheral Bus) interface using SystemVerilog.
 
-//Declare the handles of driver,mon and seq and apb_cfg
-        apb_driver drvh;
-        apb_monitor monh;
-        apb_sequencer sqrh;
+The APB interface is used for configuration and control of the SPI controller, while the SPI protocol enables serial communication between master and slave devices.
 
-        apb_cfg e_cfg;
+## Objectives
+- Design and verify an APB-based SPI Controller.
+- Validate SPI read and write operations.
+- Verify APB transactions.
+- Ensure protocol compliance through functional verification techniques.
 
-//Function new constructor
-        function new(string name="apb_agent", uvm_component parent);
-                super.new(name,parent);
-        endfunction
+## Features
+- APB Slave Interface
+- SPI Master Communication
+- Register Read and Write Operations
+- Functional Verification using SystemVerilog
+- Assertion-Based Verification
+- Functional Coverage Collection
 
-//Build phase method
-        function void build_phase(uvm_phase phase);
-                if(!uvm_config_db #(apb_cfg)::get(this,"","apb_cfg",e_cfg))
-                        `uvm_fatal(get_type_name(),"Check the connections brother");
+## Verification Components
 
-                monh = apb_monitor::type_id::create("monh",this);
-                if(e_cfg.is_active) 
-		begin
-                        drvh = apb_driver::type_id::create("drvh",this);
-                        sqrh = apb_sequencer::type_id::create("sqrh",this);
-                end
+### Generator
+Generates APB and SPI transactions for verification.
 
-                super.build_phase(phase);
-        endfunction
+### Driver
+Drives transactions to the DUT through the interface.
 
-//Connect phase method
-        function void connect_phase(uvm_phase phase);
-                if(e_cfg.is_active)
-                        drvh.seq_item_port.connect(sqrh.seq_item_export);
-                super.connect_phase(phase);
-        endfunction
-endclass
+### Monitor
+Captures DUT activity and forwards information for checking.
+
+### Scoreboard
+Compares expected and actual outputs to verify functionality.
+
+### Assertions
+Checks protocol correctness during simulation.
+
+### Functional Coverage
+Measures verification completeness and scenario coverage.
+
+## Tools Used
+- SystemVerilog
+- QuestaSim / ModelSim
+- GitHub
+
+## Test Scenarios
+- APB Write Transaction
+- APB Read Transaction
+- SPI Data Transmission
+- SPI Data Reception
+- Register Access Verification
+- Error Condition Checking
+
+## Results
+- Successfully verified APB read and write operations.
+- Validated SPI data transmission and reception.
+- Achieved protocol compliance through assertions and functional checks.
+- Generated functional coverage for key verification scenarios.
+
+## Skills Demonstrated
+- RTL Design and Verification
+- SystemVerilog Programming
+- Functional Coverage
+- Assertion-Based Verification
+- Protocol Verification (APB & SPI)
+- Debugging and Simulation
+
+## Author
+Nandini A
+
+Electronics and Communication Engineering
+
+Interested in RTL Design and Verification
 
 
 
